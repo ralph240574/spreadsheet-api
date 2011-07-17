@@ -8,7 +8,7 @@ Note: the old [Gdata Java Client] (http://code.google.com/p/gdata-java-client/) 
 
 Clone project from here: 
 
-git clone git://github.com/ralph240574/spreadsheet-api.git
+    git clone git://github.com/ralph240574/spreadsheet-api.git
 
 Use Maven to install jar in your local repository: mvn clean install
 There are two sample implementations available
@@ -16,12 +16,12 @@ There are two sample implementations available
 ##How to use with Android
 An example that uses this core api and the Android account manager can be found here:
 
-git clone git://github 
+git clone 
 
 ##How to use the Java Client
 An example that uses this core api and OAuth authentication can be found here: 
 
-git clone git://github
+git clone git@github.com:ralph240574/spreadsheet-api-java-client.git
 
 
 
