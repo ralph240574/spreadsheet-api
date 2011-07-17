@@ -16,12 +16,12 @@ There are two sample implementations available
 ##How to use with Android
 An example that uses this core api and the Android account manager can be found here:
 
-git clone 
+    git clone git@github.com:ralph240574/spreadsheet-api-android-example.git
 
 ##How to use the Java Client
 An example that uses this core api and OAuth authentication can be found here: 
 
-git clone git@github.com:ralph240574/spreadsheet-api-java-client.git
+    git clone git@github.com:ralph240574/spreadsheet-api-java-client.git
 
 
 
