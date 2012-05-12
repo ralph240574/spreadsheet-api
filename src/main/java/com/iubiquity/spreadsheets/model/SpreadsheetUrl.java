@@ -21,8 +21,10 @@ public class SpreadsheetUrl extends GoogleUrl {
 
   public static SpreadsheetUrl forSpreadSheetMetafeed() {
     SpreadsheetUrl result = forRoot();
-    result.pathParts.add("private");
-    result.pathParts.add("full");
+//    result.pathParts.add("private");
+//    result.pathParts.add("full");
+    result.getPathParts().add("private");
+    result.getPathParts().add("full");
     return result;
   }
 
