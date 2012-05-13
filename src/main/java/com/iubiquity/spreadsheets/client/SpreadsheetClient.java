@@ -15,6 +15,7 @@ import com.iubiquity.spreadsheets.model.CellEntry;
 import com.iubiquity.spreadsheets.model.CellFeed;
 import com.iubiquity.spreadsheets.model.Feed;
 import com.iubiquity.spreadsheets.model.Link;
+import com.iubiquity.spreadsheets.model.ListFeed;
 import com.iubiquity.spreadsheets.model.SpreadsheetFeed;
 import com.iubiquity.spreadsheets.model.SpreadsheetUrl;
 import com.iubiquity.spreadsheets.model.WorksheetData;
@@ -134,6 +135,15 @@ abstract public class SpreadsheetClient {
 
 	public CellFeed executeGetCellFeed(String url) throws IOException {
 		return executeGetCellFeed(new SpreadsheetUrl(url));
+	}
+	
+	
+	public ListFeed executeGetListFeed(SpreadsheetUrl url) throws IOException {
+		return executeGetFeed(url, ListFeed.class);
+	}
+
+	public ListFeed executeGetListFeed(String url) throws IOException {
+		return executeGetListFeed(new SpreadsheetUrl(url));
 	}
 
 	public WorksheetFeed executeGetWorksheetFeed(SpreadsheetUrl url)

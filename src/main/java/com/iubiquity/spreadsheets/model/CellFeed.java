@@ -1,11 +1,10 @@
 package com.iubiquity.spreadsheets.model;
 
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpStatusCodes;
-import com.google.api.client.util.Key;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.api.client.http.HttpStatusCodes;
+import com.google.api.client.util.Key;
 
 public class CellFeed extends Feed {
 
