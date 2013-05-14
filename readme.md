@@ -4,6 +4,9 @@ This api can be used to access the Google spreadsheet API with Android or Java c
 
 Note: the old [Gdata Java Client] (http://code.google.com/p/gdata-java-client/) does not support Android.
 
+A working app that uses this api can be found here: https://play.google.com/store/apps/details?id=com.iubiquity.fc
+
+
 ##How To Get Started
 
 Clone project from here: 
