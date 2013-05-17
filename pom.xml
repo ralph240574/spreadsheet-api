@@ -41,19 +41,10 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
     </build>
     <dependencies>
-    	<dependency>
-    		<groupId>com.google.api.client</groupId>
-    		<artifactId>google-api-client</artifactId>
-    		<version>1.4.1-beta</version>
-    		<type>jar</type>
-    		<scope>compile</scope>
-    	</dependency>
-    	<dependency>
-    		<groupId>com.google.api.client</groupId>
-    		<artifactId>google-api-client-googleapis</artifactId>
-    		<version>1.4.1-beta</version>
-    		<type>jar</type>
-    		<scope>compile</scope>
-    	</dependency>
+	    <dependency>
+	      <groupId>com.google.api-client</groupId>
+	      <artifactId>google-api-client</artifactId>
+	      <version>1.8.0-beta</version>
+	    </dependency>
     </dependencies>
 </project>

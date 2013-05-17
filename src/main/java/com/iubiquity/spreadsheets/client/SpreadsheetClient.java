@@ -8,7 +8,6 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.xml.atom.AtomContent;
-import com.google.api.client.http.xml.atom.AtomFeedContent;
 import com.google.api.client.http.xml.atom.AtomParser;
 import com.google.api.client.xml.XmlNamespaceDictionary;
 import com.google.common.collect.Lists;
@@ -16,6 +15,7 @@ import com.iubiquity.spreadsheets.model.CellEntry;
 import com.iubiquity.spreadsheets.model.CellFeed;
 import com.iubiquity.spreadsheets.model.Feed;
 import com.iubiquity.spreadsheets.model.Link;
+import com.iubiquity.spreadsheets.model.ListFeed;
 import com.iubiquity.spreadsheets.model.SpreadsheetFeed;
 import com.iubiquity.spreadsheets.model.SpreadsheetUrl;
 import com.iubiquity.spreadsheets.model.WorksheetData;
@@ -38,44 +38,39 @@ abstract public class SpreadsheetClient {
 	public HttpRequestFactory requestFactory;
 
 	public void initializeParser(HttpRequest request) {
-		AtomParser parser = new AtomParser();
-		parser.namespaceDictionary = DICTIONARY;
+		AtomParser parser = new AtomParser(DICTIONARY);
 		request.addParser(parser);
 	}
 
 	public void executeDelete(CellEntry cellEntry) throws IOException {
 		HttpRequest request = requestFactory.buildDeleteRequest(new GenericUrl(
 				cellEntry.getEditLink()));
-		request.headers.ifMatch = cellEntry.etag;
+		request.getHeaders().setIfMatch(cellEntry.etag);
 		request.execute().ignore();
 	}
 
 	public CellEntry executeInsert(CellEntry entry, boolean matchTag)
 			throws IOException {
-		AtomContent content = new AtomContent();
-		content.namespaceDictionary = DICTIONARY;
-		content.entry = entry;
+		AtomContent content = AtomContent.forEntry(DICTIONARY, entry);
 		HttpRequest request = requestFactory.buildPutRequest(
 				new SpreadsheetUrl(entry.getEditLink()), content);
 
 		if (matchTag) {
 			// this will only insert if there has been no modification.
-			request.headers.ifMatch = ((CellEntry) entry).etag;
+			request.getHeaders().setIfMatch(((CellEntry) entry).etag);
 		} else {
 			// this will only insert if there has been a modification
-			request.headers.ifNoneMatch = ((CellEntry) entry).etag;
+			request.getHeaders().setIfNoneMatch(((CellEntry) entry).etag);
 		}
 		return request.execute().parseAs(entry.getClass());
 	}
 
 	public CellEntry addCellEntry(CellEntry cellEntry,
 			SpreadsheetUrl cellfeedUrl) throws IOException {
-		AtomContent content = new AtomContent();
-		content.namespaceDictionary = DICTIONARY;
-		content.entry = cellEntry;
+		AtomContent content = AtomContent.forEntry(DICTIONARY, cellEntry);
 		HttpRequest request = requestFactory.buildPostRequest(cellfeedUrl,
 				content);
-		request.headers.ifNoneMatch = ((CellEntry) cellEntry).etag;
+		request.getHeaders().setIfNoneMatch(((CellEntry) cellEntry).etag);
 		return request.execute().parseAs(cellEntry.getClass());
 	}
 
@@ -97,11 +92,12 @@ abstract public class SpreadsheetClient {
 		}
 		feed.cells = updatedCells;
 		SpreadsheetUrl url = new SpreadsheetUrl(feed.getBatchLink());
-		AtomFeedContent content = new AtomFeedContent();
-		content.namespaceDictionary = DICTIONARY;
-		content.feed = feed;
+//		AtomFeedContent content = new AtomFeedContent();
+		AtomContent content = AtomContent.forFeed(DICTIONARY, feed);
+//		content.namespaceDictionary = DICTIONARY;
+//		content.feed = feed;
 		HttpRequest request = requestFactory.buildPostRequest(url, content);
-		request.headers.ifNoneMatch = "whatever";
+		request.getHeaders().setIfNoneMatch("whatever");
 		return request.execute().parseAs(CellFeed.class);
 	}
 
@@ -139,6 +135,15 @@ abstract public class SpreadsheetClient {
 
 	public CellFeed executeGetCellFeed(String url) throws IOException {
 		return executeGetCellFeed(new SpreadsheetUrl(url));
+	}
+	
+	
+	public ListFeed executeGetListFeed(SpreadsheetUrl url) throws IOException {
+		return executeGetFeed(url, ListFeed.class);
+	}
+
+	public ListFeed executeGetListFeed(String url) throws IOException {
+		return executeGetListFeed(new SpreadsheetUrl(url));
 	}
 
 	public WorksheetFeed executeGetWorksheetFeed(SpreadsheetUrl url)

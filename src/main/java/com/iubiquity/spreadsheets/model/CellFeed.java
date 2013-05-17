@@ -1,10 +1,10 @@
 package com.iubiquity.spreadsheets.model;
 
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.util.Key;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.api.client.http.HttpStatusCodes;
+import com.google.api.client.util.Key;
 
 public class CellFeed extends Feed {
 
@@ -25,7 +25,8 @@ public class CellFeed extends Feed {
 		for (CellEntry ce : cells) {
 			BatchStatus batchStatus = ce.batchStatus;
 			if (batchStatus != null
-					&& !HttpResponse.isSuccessStatusCode(batchStatus.code)) {
+					&& !HttpStatusCodes.isSuccess(batchStatus.code)) {
+//				&& !HttpResponse.isSuccessStatusCode(batchStatus.code)) {
 				return batchStatus.reason;
 			}
 		}
